@@ -4,8 +4,8 @@ public class Usuario {
     private int id;
     private String nombre;
     private String contrasena;
-    private String identificacion;
     private String correo;
+    private String identificacion;
 
     public Usuario(int id, String nombre, String contrasena, String correo, String identificacion) {
         this.id = id;
@@ -14,17 +14,11 @@ public class Usuario {
         this.correo = correo;
         this.identificacion = identificacion;
     }
+
+    // Getters y Setters
     @Override
     public String toString() {
         return "Usuario{id=" + id + ", nombre='" + nombre + "', correo='" + correo + "', identificacion='" + identificacion + "'}";
-    }
-
-    public String getIdentificacion() {
-        return identificacion;
-    }
-
-    public void setIdentificacion(String identificacion) {
-        this.identificacion = identificacion;
     }
 
     public int getId() {
@@ -59,7 +53,11 @@ public class Usuario {
         this.correo = correo;
     }
 
+    public String getIdentificacion() {
+        return identificacion;
+    }
 
-
-
+    public void setIdentificacion(String identificacion) {
+        this.identificacion = identificacion;
+    }
 }
