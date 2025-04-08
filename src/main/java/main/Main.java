@@ -14,14 +14,14 @@ public class Main {
         DeporteDAO deporteDAO = new DeporteDAO();
 
         while (true) {
-            System.out.println("\n--- MENÚ PRINCIPAL ---");
-            System.out.println("1. Gestión de usuarios");
-            System.out.println("2. Gestión de deportes");
+            System.out.println("\n--- MENU PRINCIPAL ---");
+            System.out.println("1. Gestion de usuarios");
+            System.out.println("2. Gestion de deportes");
             System.out.println("0. Salir");
-            
-            System.out.println("Elige una opción: ");
+            System.out.print("Elige una opcion: ");
             int principal = scanner.nextInt();
             scanner.nextLine();
+
             switch (principal) {
                 case 1 -> {
                     int opcion;
@@ -31,8 +31,8 @@ public class Main {
                         System.out.println("2. Listar usuarios");
                         System.out.println("3. Actualizar usuario");
                         System.out.println("4. Eliminar usuario");
-                        System.out.println("0. Atrás");
-                        System.out.print("Elige una opción: ");
+                        System.out.println("0. Atras");
+                        System.out.print("Elige una opcion: ");
                         opcion = scanner.nextInt();
                         scanner.nextLine();
 
@@ -42,23 +42,30 @@ public class Main {
                                 int id = scanner.nextInt(); scanner.nextLine();
                                 System.out.print("Nombre: ");
                                 String nombre = scanner.nextLine();
-                                System.out.print("Contraseña: ");
+                                System.out.print("Contrasena: ");
                                 String contrasena = scanner.nextLine();
-                                System.out.print("Identificación: ");
+                                System.out.print("Identificacion: ");
                                 String identificacion = scanner.nextLine();
                                 System.out.print("Correo: ");
                                 String correo = scanner.nextLine();
                                 usuarioDAO.insertar(new Usuario(id, nombre, contrasena, identificacion, correo));
                             }
-                            case 2 -> usuarioDAO.listar().forEach(u -> System.out.println(u.getId() + " - " + u.getNombre()));
+                            case 2 -> usuarioDAO.listar().forEach(u -> {
+                                System.out.println("ID: " + u.getId());
+                                System.out.println("Nombre: " + u.getNombre());
+                                System.out.println("Contraseña: " + u.getContrasena());
+                                System.out.println("Identificación: " + u.getIdentificacion());
+                                System.out.println("Correo: " + u.getCorreo());
+                                System.out.println("-------------------------");
+                            });
                             case 3 -> {
                                 System.out.print("ID del usuario a actualizar: ");
                                 int id = scanner.nextInt(); scanner.nextLine();
                                 System.out.print("Nuevo nombre: ");
                                 String nombre = scanner.nextLine();
-                                System.out.print("Nueva contraseña: ");
+                                System.out.print("Nueva contrasena: ");
                                 String contrasena = scanner.nextLine();
-                                System.out.print("Nueva identificación: ");
+                                System.out.print("Nueva identificacion: ");
                                 String identificacion = scanner.nextLine();
                                 System.out.print("Nuevo correo: ");
                                 String correo = scanner.nextLine();
@@ -81,8 +88,8 @@ public class Main {
                         System.out.println("2. Listar deportes");
                         System.out.println("3. Actualizar deporte");
                         System.out.println("4. Eliminar deporte");
-                        System.out.println("0. Atrás");
-                        System.out.print("Elige una opción: ");
+                        System.out.println("0. Atras");
+                        System.out.print("Elige una opcion: ");
                         opcion = scanner.nextInt();
                         scanner.nextLine();
 
@@ -116,7 +123,7 @@ public class Main {
                     System.exit(0);
                 }
 
-                default -> System.out.println("Opción inválida");
+                default -> System.out.println("Opcion invalida");
             }
         }
     }

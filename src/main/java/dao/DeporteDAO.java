@@ -1,65 +1,45 @@
 package dao;
 
 import modelo.Deporte;
-import conexion.Conexion;
+import jakarta.persistence.*;
 
-import java.sql.*;
-import java.util.*;
+import java.util.List;
 
 public class DeporteDAO {
 
+    private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("poli_apuestasPU");
+
     public void insertar(Deporte deporte) {
-        try (Connection conn = Conexion.getConnection()) {
-            String sql = "INSERT INTO deporte (id_deporte, nombre_deporte) VALUES (?, ?)";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, deporte.getId());
-            stmt.setString(2, deporte.getNombre());
-            stmt.executeUpdate();
-            System.out.println("Deporte insertado.");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        em.persist(deporte);
+        em.getTransaction().commit();
+        em.close();
     }
 
     public List<Deporte> listar() {
-        List<Deporte> deportes = new ArrayList<>();
-        try (Connection conn = Conexion.getConnection()) {
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM deporte");
-            while (rs.next()) {
-                deportes.add(new Deporte(
-                    rs.getInt("id_deporte"),
-                    rs.getString("nombre_deporte")
-                ));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        EntityManager em = emf.createEntityManager();
+        List<Deporte> deportes = em.createQuery("SELECT d FROM Deporte d", Deporte.class).getResultList();
+        em.close();
         return deportes;
     }
 
-    public void eliminar(int id) {
-        try (Connection conn = Conexion.getConnection()) {
-            String sql = "DELETE FROM deporte WHERE id_deporte = ?";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, id);
-            stmt.executeUpdate();
-            System.out.println("Deporte eliminado.");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public void actualizar(Deporte deporte) {
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        em.merge(deporte);
+        em.getTransaction().commit();
+        em.close();
     }
 
-    public void actualizar(Deporte deporte) {
-        try (Connection conn = Conexion.getConnection()) {
-            String sql = "UPDATE deporte SET nombre_deporte = ? WHERE id_deporte = ?";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, deporte.getNombre());
-            stmt.setInt(2, deporte.getId());
-            stmt.executeUpdate();
-            System.out.println("Deporte actualizado.");
-        } catch (SQLException e) {
-            e.printStackTrace();
+    public void eliminar(int id) {
+        EntityManager em = emf.createEntityManager();
+        Deporte deporte = em.find(Deporte.class, id);
+        if (deporte != null) {
+            em.getTransaction().begin();
+            em.remove(deporte);
+            em.getTransaction().commit();
         }
+        em.close();
     }
 }
