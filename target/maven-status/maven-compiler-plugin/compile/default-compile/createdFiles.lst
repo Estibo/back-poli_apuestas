@@ -1,6 +1,0 @@
-dao\UsuarioDAO.class
-conexion\Conexion.class
-main\Main.class
-modelo\Usuario.class
-dao\DeporteDAO.class
-modelo\Deporte.class
